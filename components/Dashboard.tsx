@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Category, CostItem, Product, SavedRecord } from '../types';
 import { formatCurrency, generateId } from '../utils';
 import ThemeToggle from './ThemeToggle';
-import * as XLSX from 'https://esm.sh/xlsx';
+import * as XLSX from 'xlsx';
 
 interface DashboardProps {
   onLogout: () => void;
@@ -147,25 +147,36 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout, theme, toggleTheme }) =
   };
 
   const handleExportExcel = () => {
-    const rows = product.items.map(item => ({
-      'Kategori': item.category,
-      'Nama Item': item.name,
-      'Harga': item.unitPrice
-    }));
+    console.log('Dashboard: Export Excel button clicked');
+    try {
+      const rows = product.items.map(item => ({
+        'Kategori': item.category,
+        'Nama Item': item.name,
+        'Harga': item.unitPrice
+      }));
 
-    const ws = XLSX.utils.json_to_sheet(rows);
-    const summaryStartRow = rows.length + 3;
-    XLSX.utils.sheet_add_aoa(ws, [
-      ['RINGKASAN'],
-      ['Nama Produk', product.name],
-      ['Hasil Produksi', product.productionYield],
-      ['Total Biaya Produksi', totals.totalCost],
-      ['HPP Per Unit', totals.hppPerUnit]
-    ], { origin: `A${summaryStartRow}` });
+      console.log('Dashboard: Creating Excel worksheet...');
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const summaryStartRow = rows.length + 3;
+      XLSX.utils.sheet_add_aoa(ws, [
+        ['RINGKASAN'],
+        ['Nama Produk', product.name],
+        ['Hasil Produksi', product.productionYield],
+        ['Total Biaya Produksi', totals.totalCost],
+        ['HPP Per Unit', totals.hppPerUnit]
+      ], { origin: `A${summaryStartRow}` });
 
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Data HPP');
-    XLSX.writeFile(wb, `HPP_${product.name.replace(/\s+/g, '_') || 'Export'}.xlsx`);
+      console.log('Dashboard: Creating Excel workbook...');
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Data HPP');
+      
+      console.log('Dashboard: Writing Excel file...');
+      XLSX.writeFile(wb, `HPP_${product.name.replace(/\s+/g, '_') || 'Export'}.xlsx`);
+      console.log('Dashboard: Excel file exported successfully');
+    } catch (error) {
+      console.error('Dashboard: Error exporting Excel:', error);
+      alert('Gagal mengekspor file Excel. Silakan coba lagi.');
+    }
   };
 
   const getPlaceholder = (category: Category) => {

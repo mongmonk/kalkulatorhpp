@@ -1,0 +1,116 @@
+/* File CSS untuk Kalkulator HPP Pro */
+/* Dibuat untuk mengatasi error file tidak ditemukan */
+
+/* Reset dan base styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+/* Custom utility classes */
+.print-container {
+  /* Styles untuk container saat print */
+}
+
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Animation keyframes */
+@keyframes bounce-in {
+  0% {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+  70% {
+    transform: translate(-50%, 10%);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Print styles */
+@media print {
+  aside,
+  header,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .lg\:pl-64 {
+    padding-left: 0 !important;
+  }
+
+  main {
+    padding: 0 !important;
+  }
+
+  section,
+  .summary-card,
+  .bg-white,
+  .dark\:bg-darkCard {
+    background: transparent !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .sticky {
+    position: static !important;
+    display: block !important;
+  }
+
+  input {
+    border: none !important;
+    background: transparent !important;
+    padding-left: 0 !important;
+    font-weight: bold !important;
+  }
+
+  .grid {
+    display: grid !important;
+  }
+}
+
+/* Log untuk debugging */
+/* File ini dibuat untuk mengatasi error index.css tidak ditemukan */
